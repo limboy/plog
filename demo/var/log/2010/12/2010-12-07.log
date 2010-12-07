@@ -1,0 +1,3 @@
+2010/12/07 16:00:26 DEBUG [app.test] /projects/os/plog/demo/app/test.php?id=1 """hello world"""
+2010/12/07 16:00:26 INFO [app.test] /projects/os/plog/demo/app/test.php?id=1 """今晚打老虎"""
+2010/12/07 16:01:17 DEBUG [system.core] /projects/os/plog/demo/system/core.php?_profiler=1 """heal the world"""
