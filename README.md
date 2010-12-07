@@ -1,0 +1,65 @@
+## plog简介
+
+plog是一款轻量级，易定制，易使用，易扩展的php日志系统。可以很方便地添加日志处理工具、自定义输出格式、自定义日志类型等等。
+
+## plog使用
+
+使用plog很简单，在每个要加日志的文件里，输入以下代码
+
+	<?php
+	// 载入plog类
+	require '/path/to/plog.php';
+
+	// 设置config，config文件位置可以自定义
+	// 对于单入口文件，这两段代码可以放在入口文件处
+	Plog::set_config(include 'path/to/config.php');
+
+	// 把下面这段代码放到对应的文件里
+	$log = Plog::factory(__FILE__);
+
+	// 使用
+	$log->debug('this is debug message');
+	$log->info('this is info message');
+
+## plog的配置
+
+plog的配置很灵活，下面是个demo config
+
+	<?php
+	return array(
+		// 设置日志的类型，如有些是系统日志，有些是应用日志
+		'loggers' => array(
+			// base是个特殊变量，会自动添加到其他配置的前面
+			'base' => dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'demo'.DIRECTORY_SEPARATOR,
+			'system' => 'system', // key为日志类型，value为文件夹路径，base路径会被自动添加
+			'app' => 'app' // 同上
+		),
+		// 日志的等级
+		'levels' => array('DEBUG', 'INFO', 'ERROR', 'WARN', 'FATAL'),
+		// 日志处理工具，可以添加多个，设置enabled为true表示已启用
+		'handlers' => array(
+			'file' => array(
+				// 处理引擎
+				'driver' => 'file',
+				// 记录哪种类型的日志
+				'level' => array('DEBUG'),
+				// 日志格式，可以在formatters处添加
+				'formatter' => 'generic',
+				// 是否启用该引擎
+				'enabled' => true,
+				// 针对该handler的特处配置
+				'config' => array(
+					'dir' => dirname(dirname(__FILE__)).'/demo/var/log',
+				),
+			),
+		),
+		// 日志格式
+		'formatters' => array(
+			'generic' => '{time} {level} [{logger}] {uri} """{message}"""',
+		),
+	);
+
+### 几点说明
+
+* levels项，每一个值都是一个方法，不过是小写的，如$log->debug('message')。如果某个方法不在这些levels里会触发异常。
+* 日志格式的可选变量在plog/formatter.php里，每一个get开头的方法就是，如果觉得不够用，可以自己添加。
