@@ -63,3 +63,12 @@ plog的配置很灵活，下面是个demo config
 
 * levels项，每一个值都是一个方法，不过是小写的，如$log->debug('message')。如果某个方法不在这些levels里会触发异常。
 * 日志格式的可选变量在plog/formatter.php里，每一个get开头的方法就是，如果觉得不够用，可以自己添加。
+
+## 日志内容
+
+日志内容取决于日志格式，下面是demo
+
+	2010/12/07 16:00:26 DEBUG [app.test] /projects/os/plog/demo/app/test.php?id=1 """hello world"""
+	2010/12/07 16:00:26 INFO [app.test] /projects/os/plog/demo/app/test.php?id=1 """今晚打老虎"""
+	2010/12/07 16:01:17 DEBUG [system.core] /projects/os/plog/demo/system/core.php?_profiler=1 """heal the world"""
+	2010/12/07 16:37:29 DEBUG [system.core] /projects/os/plog/demo/system/core.php?_profiler=1 """heal the world"""
