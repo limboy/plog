@@ -67,22 +67,26 @@ class Plog
 	public function __call($method, $args)
 	{
 		$config = self::get_config();
-		if (!in_array(strtoupper($method), $config['levels']))
+		$method = strtoupper($method);
+		if (!in_array($method, $config['levels']))
 		{
 			throw Plog_Exception(sprintf('method not allowed: %s', $method));
 		}
 		foreach ($this->_logger_handlers as $handler)
 		{
-			$class = 'Plog_Handler_'.strtoupper($handler['driver']);
-			if (!class_exists($class))
-				require strtolower(str_replace('_', DIRECTORY_SEPARATOR, $class)).'.php';
-			$class = $class::instance($handler['driver']);
-			$class->set_formatter_args(array(
-				'message' => $args[0],
-				'level' => strtoupper($method),
-				'logger' => $this->_logger,
-			));
-			$class->save();
+			if (in_array($method, $handler['level']))
+			{
+				$class = 'Plog_Handler_'.strtoupper($handler['driver']);
+				if (!class_exists($class))
+					require strtolower(str_replace('_', DIRECTORY_SEPARATOR, $class)).'.php';
+				$class = $class::instance($handler['driver']);
+				$class->set_formatter_args(array(
+					'message' => $args[0],
+					'level' => $method,
+					'logger' => $this->_logger,
+				));
+				$class->save();
+			}
 		}
 	}
 }
