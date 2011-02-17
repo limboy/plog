@@ -13,7 +13,21 @@ class Plog_Formatter
 
 	public function getUri()
 	{
-		return $_SERVER['REQUEST_URI'];
+		$clientIp = '0.0.0.0';
+		if (isset($_SERVER['CLIENT_IP']))
+		{
+			$clientIp = $_SERVER['CLIENT_IP'];
+		}
+		if (isset($_SERVER['X_FORWARDED_FOR']))
+		{
+			$clientIp = $_SERVER['X_FORWARDED_FOR'];
+		}
+		if (isset($_SERVER['REMOTE_ADDR']))
+		{
+			$clientIp = $_SERVER['REMOTE_ADDR'];
+		}
+
+		return $clientIp;
 	}
 
 	public function getIp()
