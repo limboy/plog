@@ -18,11 +18,11 @@ class Plog_Formatter
 		{
 			$clientIp = $_SERVER['CLIENT_IP'];
 		}
-		if (isset($_SERVER['X_FORWARDED_FOR']))
+		elseif (isset($_SERVER['X_FORWARDED_FOR']))
 		{
 			$clientIp = $_SERVER['X_FORWARDED_FOR'];
 		}
-		if (isset($_SERVER['REMOTE_ADDR']))
+		elseif (isset($_SERVER['REMOTE_ADDR']))
 		{
 			$clientIp = $_SERVER['REMOTE_ADDR'];
 		}
