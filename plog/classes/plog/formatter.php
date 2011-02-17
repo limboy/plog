@@ -16,6 +16,11 @@ class Plog_Formatter
 		return $_SERVER['REQUEST_URI'];
 	}
 
+	public function getIp()
+	{
+		return $_SERVER['REMOTE_ADDR'];
+	}
+
 	public function getLevel()
 	{
 		return $this->args['level'];
